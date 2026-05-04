@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
@@ -32,9 +33,9 @@
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-		<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-		<![endif]-->
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
 
 </head>
 
@@ -58,7 +59,7 @@
                     <!-- Logo -->
                     <div class="header-logo">
                         <a class="logo" href="#">
-                            <img src="{{ asset('image/logo.png') }}" alt="">
+                            <img src="{{ asset('image/icon_univ_bsi.png') }}" alt="">
                         </a>
                     </div>
                     <!-- /Logo -->
@@ -71,16 +72,17 @@
                     <ul class="header-btns">
                         <!-- Cart -->
                         <li class="header-cart dropdown default-dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                            <a href="{{ route('order.cart') }}">
                                 <div class="header-btns-icon">
                                     <i class="fa fa-shopping-cart"></i>
+                        <!-- <span class="qty">3</span> -->
                                 </div>
-                                <strong class="text-uppercase">Keranjang</strong>
+                                    <strong class="text-uppercase">Keranjang</strong>
                             </a>
                         </li>
                         <!-- /Cart -->
-                        <!-- Account -->
                         @if (Auth::check())
+                            <!-- Account -->
                             <li class="header-account dropdown default-dropdown">
                                 <div class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="true">
                                     <div class="header-btns-icon">
@@ -90,15 +92,15 @@
                                             class="fa fa-caret-down"></i></strong>
                                 </div>
                                 <ul class="custom-menu">
-                                    <li><a href="#"><i class="fa fa-user-o"></i> Akun Saya</a></li>
+                                    <li><a href="{{route('customer.akun', Auth::user()->id) }}"><i class="fa fauser-o"></i>Akun Saya</a></li>
                                     <li><a href="#"><i class="fa fa-check"></i> History</a></li>
                                     <li>
                                         <a href="#"
                                             onclick="event.preventDefault(); document.getElementById('keluar-app').submit();"><i
-                                                class="fa fa-power-off"></i> Keluar</a>
+                                                class="fa fa-power-off"></i> Keluar
+                                        </a>
                                         <!-- form keluar app -->
-                                        <form id="keluar-app" action="{{ route('logout') }}" method="POST"
-                                            class="d-none">
+                                        <form id="keluar-app" action="#" method="POST" class="d-none">
                                             @csrf
                                         </form>
                                         <!-- form keluar app end -->
@@ -111,12 +113,13 @@
                                     <div class="header-btns-icon">
                                         <i class="fa fa-user-o"></i>
                                     </div>
-                                    <strong class="text-uppercase">Akun Saya<i></i></strong>
+                                    <strong class="text-uppercase">Akun Saya<i class="fa fa-caret-down"></i></strong>
                                 </div>
                                 <a href="{{ route('auth.redirect') }}" class="text-uppercase">Login</a>
                             </li>
+                            <!-- /Account -->
                         @endif
-                        <!-- /Account -->
+
                         <!-- Mobile nav toggle-->
                         <li class="nav-toggle">
                             <button class="nav-toggle-btn main-btn icon-btn"><i class="fa fa-bars"></i></button>
@@ -145,7 +148,8 @@
                         <span class="category-header">Kategori <i class="fa fa-list"></i></span>
                         <ul class="category-list">
                             @foreach ($kategori as $row)
-                                <li><a href="{{ route('produk.kategori', $row->id) }}">{{ $row->nama_kategori}}</a></li>
+                                <li><a href="{{ route('produk.kategori', $row->id) }}">{{ $row->nama_kategori }}</a>
+                                </li>
                             @endforeach
                         </ul>
                         <ul class="category-list">
@@ -155,7 +159,8 @@
                         <span class="category-header">Kategori <i class="fa fa-list"></i></span>
                         <ul class="category-list">
                             @foreach ($kategori as $row)
-                                <li><a href="{{ route('produk.kategori', $row->id) }}">{{ $row->nama_kategori }}</a></li>
+                                <li><a href="{{ route('produk.kategori', $row->id) }}">{{ $row->nama_kategori }}</a>
+                                </li>
                             @endforeach
                         </ul>
                     </div>
@@ -202,8 +207,9 @@
                         <div class="banner banner-1">
                             <img src="{{ asset('frontend/banner/banner02.jpg') }}" alt="">
                             <div class="banner-caption">
-                                <h1 class="primary-color">Khas Makanan Indonesia<br><span
-                                        class="white-color font-weak">Jajanan Tradisional</span></h1>
+                                <h1 class="primary-color">Khas Makanan Indonesia<br>
+                                    <span class="white-color font-weak">Jajanan Tradisional</span>
+                                </h1>
                                 <button class="primary-btn">Pesan Sekarang</button>
                             </div>
                         </div>
@@ -227,6 +233,7 @@
         </div>
         <!-- /HOME -->
     @endif
+
     <!-- section -->
     <div class="section">
         <!-- container -->
@@ -237,15 +244,16 @@
                 <div id="aside" class="col-md-3">
                     <!-- aside widget -->
                     <div class="aside">
-                        <h3 class="aside-title">Top Rated Product</h3>
+                        <h3 class="aside-title">Rating Produk Terbaik</h3>
                         <!-- widget product -->
                         <div class="product product-widget">
                             <div class="product-thumb">
-                                <img src="{{ asset('frontend/img/thumb-product01.jpg') }}" alt="">
+                                <img src="{{ asset('frontend/img/LAPIS-SURABAYA.jpg') }}" alt="">
                             </div>
                             <div class="product-body">
-                                <h2 class="product-name"><a href="#">Product Name Goes Here</a></h2>
-                                <h3 class="product-price">$32.50 <del class="product-old-price">$45.00</del></h3>
+                                <h2 class="product-name"><a href="#">Lapis Surabaya</a></h2>
+                                <h3 class="product-price">Rp.150.000 <del class="product-old-price">Rp.200.000</del>
+                                </h3>
                                 <div class="product-rating">
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
@@ -260,11 +268,11 @@
                         <!-- widget product -->
                         <div class="product product-widget">
                             <div class="product-thumb">
-                                <img src="{{ asset('frontend/img/thumb-product01.jpg') }}" alt="">
+                                <img src="{{ asset('frontend/img/es-dawet-susu.jpg') }}" alt="">
                             </div>
                             <div class="product-body">
-                                <h2 class="product-name"><a href="#">Product Name Goes Here</a></h2>
-                                <h3 class="product-price">$32.50</h3>
+                                <h2 class="product-name"><a href="#">Dawet</a></h2>
+                                <h3 class="product-price">Rp.15.000</h3>
                                 <div class="product-rating">
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
@@ -282,7 +290,8 @@
                         <h3 class="aside-title">Filter Kategori</h3>
                         <ul class="list-links">
                             @foreach ($kategori as $row)
-                                <li><a href="{{ route('produk.kategori', $row->id) }}">{{ $row->nama_kategori }}</a></li>
+                                <li><a href="{{ route('produk.kategori', $row->id) }}">{{ $row->nama_kategori }}</a>
+                                </li>
                             @endforeach
                         </ul>
                     </div>
@@ -295,18 +304,9 @@
                     <!-- store top filter -->
                     <!-- /store top filter -->
 
-                    <!-- STORE -->
-                    <div id="store">
-                        <!-- row -->
-                        <div class="row">
-                            <!-- @yieldAwal -->
-                            @yield('content')
-                            <!-- @yieldAkhir-->
-                            <div class="clearfix visible-md visible-lg visible-sm visible-xs"></div>
-                        </div>
-                        <!-- /row -->
-                    </div>
-                    <!-- /STORE -->
+                    <!-- @yieldawal -->
+                    @yield('content')
+                    <!-- @yieldakhir -->
 
                     <!-- store bottom filter -->
 
@@ -410,8 +410,9 @@
                         Copyright &copy;
                         <script>
                             document.write(new Date().getFullYear());
-                        </script> All rights reserved | This template is made with <i class="fa fa-heart-o"
-                            aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                        </script> All rights reserved | This template is made with <i
+                            class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com"
+                            target="_blank">Colorlib</a>
                         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                     </div>
                     <!-- /footer copyright -->
@@ -430,6 +431,7 @@
     <script src="{{ asset('frontend/js/nouislider.min.js') }}"></script>
     <script src="{{ asset('frontend/js/jquery.zoom.min.js') }}"></script>
     <script src="{{ asset('frontend/js/main.js') }}"></script>
+    <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}"></script>
 
 </body>
 

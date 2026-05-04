@@ -18,7 +18,20 @@ Route::get('backend/beranda', [BerandaController::class, 'berandaBackend'])->nam
 Route::get('backend/login', [LoginController::class, 'loginBackend'])->name('backend.login'); 
 Route::post('backend/login', [LoginController::class, 'authenticateBackend'])->name('backend.login'); 
 Route::post('backend/logout', [LoginController::class, 'logoutBackend'])->name('backend.logout'); 
- 
+
+// Group untuk customer
+Route::middleware('is.customer')->group(function () {
+    // Route untuk menampilkan halaman akun customer
+    Route::get('/customer/akun/{id}', [CustomerController::class, 'akun'])->name('customer.akun');
+
+    // Route untuk mengupdate data akun customer
+    Route::put('/customer/updateakun/{id}', [CustomerController::class, 'updateAkun'])->name('customer.updateakun');
+
+    // Route untuk menambahkan produk ke keranjang
+    Route::post('add-to-cart/{id}', [OrderController::class, 'addToCart'])->name('order.addToCart');
+    Route::get('cart', [OrderController::class, 'viewCart'])->name('order.cart');
+});
+
 // Route untuk User 
 // Route::resource('backend/user', UserController::class)->middleware('auth'); 
 Route::resource('backend/user', UserController::class, ['as' => 'backend'])->middleware('auth'); 
@@ -28,7 +41,6 @@ Route::post('backend/laporan/cetakuser', [UserController::class, 'cetakUser'])->
  
 // Route untuk Kategori p
 Route::resource('backend/kategori', KategoriController::class, ['as' => 'backend'])->middleware('auth'); 
- 
 // Route untuk Produk 
 Route::resource('backend/produk', ProdukController::class, ['as' => 'backend'])->middleware('auth'); 
 // Route untuk menambahkan foto 
@@ -38,7 +50,7 @@ Route::delete('foto-produk/{id}', [ProdukController::class, 'destroyFoto'])->nam
 // Route untuk laporan produk 
 Route::get('backend/laporan/formproduk', [ProdukController::class, 'formProduk'])->name('backend.laporan.formproduk')->middleware('auth'); 
 Route::post('backend/laporan/cetakproduk', [ProdukController::class, 'cetakProduk'])->name('backend.laporan.cetakproduk')->middleware('auth'); 
- 
+
 // Frontend 
 Route::get('/beranda', [BerandaController::class, 'index'])->name('beranda'); 
 Route::get('/produk/detail/{id}', [ProdukController::class, 'detail'])->name('produk.detail'); 
