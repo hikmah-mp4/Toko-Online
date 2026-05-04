@@ -11,7 +11,6 @@
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('image/icon_univ_bsi.png') }}">
     <title>tokoonline</title>
-
     <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" href="{{ asset('backend/extra-libs/multicheck/multicheck.css') }}">
     <link rel="stylesheet" href="{{ asset('backend/libs/datatables.net-bs4/css/dataTables.bootstrap4.css') }}">
@@ -120,6 +119,7 @@
                                 <span class="hide-menu">User</span>
                             </a>
                         </li>
+                        // menambahkan sidebar untuk customer
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                                 href="{{ route('backend.customer.index') }}" aria-expanded="false">
                                 <i class="mdi mdi-account-multiple"></i>
